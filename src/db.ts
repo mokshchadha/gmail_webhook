@@ -18,9 +18,19 @@ db.run(`
       category TEXT,
       link TEXT,
       resolved BOOLEAN DEFAULT 0,
-      ingestedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      ingestedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      orderNo TEXT,
+      address TEXT,
+      quoteRequest BOOLEAN DEFAULT 0,
+      aiSummary TEXT
   );
 `);
+
+// Migrations for existing tables
+try { db.run("ALTER TABLE emails ADD COLUMN orderNo TEXT;"); } catch (e) {}
+try { db.run("ALTER TABLE emails ADD COLUMN address TEXT;"); } catch (e) {}
+try { db.run("ALTER TABLE emails ADD COLUMN quoteRequest BOOLEAN DEFAULT 0;"); } catch (e) {}
+try { db.run("ALTER TABLE emails ADD COLUMN aiSummary TEXT;"); } catch (e) {}
 
 console.log("Database initialized.");
 

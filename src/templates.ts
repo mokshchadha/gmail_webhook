@@ -49,6 +49,12 @@ export const Layout = (content: string) => `
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-32">
                                 Category
                             </th>
+                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-24">
+                                Order #
+                            </th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-32">
+                                Address
+                            </th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-48">
                                 Sender
                             </th>
@@ -112,14 +118,25 @@ export const EmailRow = (email: any) => {
         </div>
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
-        <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${getPriorityStyle(email.priority)}">
-            ${email.priority}
-        </span>
+        <div class="flex flex-col gap-1 items-start">
+            <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${getPriorityStyle(email.priority)}">
+                ${email.priority}
+            </span>
+            ${email.quoteRequest ? '<span class="inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium bg-purple-50 text-purple-700 ring-1 ring-inset ring-purple-700/10">Quote Req</span>' : ''}
+        </div>
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
         <span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${getCategoryStyle(email.category)}">
             ${email.category}
         </span>
+    </td>
+     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+        ${email.orderNo ? `<span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-xs text-slate-700 select-all">${email.orderNo}</span>` : '<span class="text-gray-300">-</span>'}
+    </td>
+    <td class="px-6 py-4 text-sm text-slate-600">
+        <div class="truncate max-w-[10rem]" title="${email.address || ''}">
+            ${email.address || '<span class="text-gray-300">-</span>'}
+        </div>
     </td>
     <td class="px-6 py-4 text-sm text-slate-600">
         <div class="truncate max-w-[14rem] font-medium" title="${email.sender}">
@@ -133,6 +150,7 @@ export const EmailRow = (email: any) => {
         <div class="line-clamp-2 leading-relaxed font-medium ${email.resolved ? 'text-gray-400 line-through decoration-gray-300' : ''}">
             ${email.subject}
         </div>
+        ${email.aiSummary ? `<div class="mt-1 text-xs text-indigo-600 font-medium bg-indigo-50 inline-block px-1.5 py-0.5 rounded border border-indigo-100">✨ ${email.aiSummary}</div>` : ''}
     </td>
     <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
         <a href="${email.link}" target="_blank" class="group/link inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm hover:ring-1 hover:ring-gray-200 transition-all font-medium">

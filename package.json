@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@elysiajs/html": "^1.4.0",
+    "@google/generative-ai": "^0.24.1",
     "elysia": "latest",
     "googleapis": "^170.0.0"
   },
