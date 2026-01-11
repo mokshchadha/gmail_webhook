@@ -23,7 +23,7 @@ const oAuth2Client = new google.auth.OAuth2(
   REDIRECT_URI
 );
 
-async function loadToken() {
+export async function loadToken() {
   const file = Bun.file(TOKEN_PATH);
   if (await file.exists()) {
     const token = await file.json();

@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import { html } from "@elysiajs/html";
 import { db } from "./db";
-import { ingestEmails, setCredentials } from "./gmail";
+import { ingestEmails, setCredentials, loadToken, getAuthUrl } from "./gmail";
 import { Layout, EmailRow } from "./templates";
 import { BunFile } from "bun";
 
@@ -12,10 +12,11 @@ const app = new Elysia()
   .get("/styles.css", () => Bun.file("src/styles.css"))
   
   // Main UI
-  .get("/", () => {
+  .get("/", async () => {
+    const isAuthenticated = await loadToken();
     const emails = db.query("SELECT * FROM emails ORDER BY ingestedAt DESC").all();
     const emailsHtml = emails.map(EmailRow).join("");
-    return Layout(emailsHtml);
+    return Layout(emailsHtml, isAuthenticated, getAuthUrl());
   })
 
   // OAuth Callback
